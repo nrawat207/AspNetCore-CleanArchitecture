@@ -6,7 +6,7 @@ namespace ApplicationCore.Entities.CartAggregate
     {
         public decimal UnitPrice { get; private set; }
         public int Quantity { get; private set; }
-        public int ProductId { get; private set; }
+        public long ProductId { get; private set; }
         public int CartId { get; private set; }
 
         public CartItem(int productId, int quantity, decimal unitPrice)

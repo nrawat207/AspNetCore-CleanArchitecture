@@ -4,9 +4,9 @@ namespace ApplicationCore.Entities.OrderAggregate
 {
     public class ProductOrdered //Value Object
     {
-        public ProductOrdered(int productId, string productName, string pictureUri)
+        public ProductOrdered(long productId, string productName, string pictureUri)
         {
-            Guard.Against.OutOfRange(productId, nameof(productId), 1, int.MaxValue);
+            Guard.Against.Zero(productId, nameof(productId));
             Guard.Against.NullOrEmpty(productName, nameof(productName));
             Guard.Against.NullOrEmpty(pictureUri, nameof(pictureUri));
 
@@ -20,7 +20,7 @@ namespace ApplicationCore.Entities.OrderAggregate
             // required by EF
         }
 
-        public int ProductId { get; private set; }
+        public long ProductId { get; private set; }
         public string ProductName { get; private set; }
         public string PictureUri { get; private set; }
     }
