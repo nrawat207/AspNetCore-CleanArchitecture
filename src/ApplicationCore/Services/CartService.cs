@@ -11,9 +11,9 @@ namespace ApplicationCore.Services
     public class CartService : ICartService
     {
         private readonly IRepository<Cart> _cartRepository;
-        private readonly IAppLogger _logger;
+        private readonly IAppLogger<CartService> _logger;
 
-        public CartService(IRepository<Cart> cartRepository, IAppLogger logger)
+        public CartService(IRepository<Cart> cartRepository, IAppLogger<CartService> logger)
         {
             _cartRepository = cartRepository;
             _logger = logger;

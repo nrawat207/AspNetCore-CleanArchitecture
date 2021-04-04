@@ -21,6 +21,8 @@ namespace WebApi
 {
     public class Startup
     {
+        private const string CORS_POLICY = "CorsPolicy";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -49,14 +51,28 @@ namespace WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddCoreServices(Configuration);
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: CORS_POLICY,
+                                  builder =>
+                                  {
+                                      builder.AllowAnyOrigin();
+                                      builder.AllowAnyMethod();
+                                      builder.AllowAnyHeader();
+                                  });
+            });
             services.AddControllers();
             services.AddMediatR(typeof(Product).Assembly);
             services.AddAutoMapper(typeof(Startup).Assembly);
-            services.AddCoreServices(Configuration);
+            
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApi", Version = "v1" });
+                c.EnableAnnotations();
+                c.SchemaFilter<CustomSchemaFilters>();
+
             });
         }
 
@@ -66,15 +82,22 @@ namespace WebApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApi v1"));
+                
             }
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
+            app.UseCors(CORS_POLICY);
+
             app.UseAuthorization();
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApi v1"));
 
             app.UseEndpoints(endpoints =>
             {
