@@ -9,7 +9,7 @@ namespace ApplicationCore.Entities.CartAggregate
         public long ProductId { get; private set; }
         public int CartId { get; private set; }
 
-        public CartItem(int productId, int quantity, decimal unitPrice)
+        public CartItem(long productId, int quantity, decimal unitPrice)
         {
             ProductId = productId;
             UnitPrice = unitPrice;

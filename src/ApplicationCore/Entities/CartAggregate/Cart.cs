@@ -15,7 +15,7 @@ namespace ApplicationCore.Entities.CartAggregate
             CustomerId = customerId;
         }
 
-        public void AddItem(int productId, decimal unitPrice, int quantity = 1)
+        public void AddItem(long productId, decimal unitPrice, int quantity = 1)
         {
             if (!Items.Any(i => i.ProductId == productId))
             {

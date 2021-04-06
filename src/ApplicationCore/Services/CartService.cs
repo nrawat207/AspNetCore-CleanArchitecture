@@ -4,6 +4,7 @@ using ApplicationCore.Interfaces;
 using ApplicationCore.Specifications;
 using Ardalis.GuardClauses;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ApplicationCore.Services
@@ -19,7 +20,19 @@ namespace ApplicationCore.Services
             _logger = logger;
         }
 
-        public async Task AddItemToCart(int cartId, int productId, decimal price, int quantity = 1)
+        public async Task<Cart> GetOrCreateCart(string userName,CancellationToken cancellationToken = default)
+        {
+            var cartSpec = new CartWithItemsSpecification(userName);
+            var cart = (await _cartRepository.FirstOrDefaultAsync(cartSpec,cancellationToken));
+
+            if (cart == null)
+            {
+                return await _cartRepository.AddAsync(new Cart(userName), cancellationToken);
+            }
+            return cart;
+        }
+
+        public async Task AddItemToCart(long cartId, long productId, decimal price, int quantity = 1)
         {
             var cartSepc = new CartWithItemsSpecification(cartId);
             var cart = await _cartRepository.FirstOrDefaultAsync(cartSepc);
@@ -30,13 +43,13 @@ namespace ApplicationCore.Services
             await _cartRepository.UpdateAsync(cart);
         }
 
-        public async Task DeleteBasketAsync(int cartId)
+        public async Task DeleteCartAsync(long cartId)
         {
             var cart = await _cartRepository.GetByIdAsync(cartId);
             await _cartRepository.DeleteAsync(cart);
         }
 
-        public async Task SetQuantities(int cartId, Dictionary<string, int> quantities)
+        public async Task SetQuantities(long cartId, Dictionary<string, int> quantities)
         {
             Guard.Against.Null(quantities, nameof(quantities));
             var cartSpec = new CartWithItemsSpecification(cartId);

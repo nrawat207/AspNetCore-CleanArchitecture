@@ -5,7 +5,7 @@ namespace ApplicationCore.Specifications
 {
     public sealed class CartWithItemsSpecification : Specification<Cart>
     {
-        public CartWithItemsSpecification(int cartId)
+        public CartWithItemsSpecification(long cartId)
         {
             Query
                 .Where(c => c.Id == cartId)

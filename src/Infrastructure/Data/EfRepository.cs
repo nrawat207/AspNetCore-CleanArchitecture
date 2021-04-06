@@ -58,7 +58,7 @@ namespace Infrastructure.Data
             return await specificationResult.FirstOrDefaultAsync(cancellationToken);
         }
 
-        public virtual async Task<T> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+        public virtual async Task<T> GetByIdAsync(long id, CancellationToken cancellationToken = default)
         {
             var keyValues = new object[] { id };
             return await _dbContext.Set<T>().FindAsync(keyValues, cancellationToken);

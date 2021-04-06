@@ -8,7 +8,7 @@ namespace ApplicationCore.Exceptions
 {
     public class CartNotFoundException: Exception
     {
-        public CartNotFoundException(int cartId) : base($"No cart found with id {cartId}")
+        public CartNotFoundException(long cartId) : base($"No cart found with id {cartId}")
         {
         }
 

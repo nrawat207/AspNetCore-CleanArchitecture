@@ -7,7 +7,7 @@ namespace ApplicationCore.Exceptions
 {
     public static class CartGuards
     {
-        public static void NullCart(this IGuardClause guardClause, int cartId, Cart cart)
+        public static void NullCart(this IGuardClause guardClause, long cartId, Cart cart)
         {
             if (cart == null)
                 throw new CartNotFoundException(cartId);
