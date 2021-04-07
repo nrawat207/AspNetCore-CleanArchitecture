@@ -25,7 +25,7 @@ namespace ApplicationCore.Services
             _productRepository = productRepository;
         }
 
-        public async Task CreateOrderAsync(int cartId, Address shippingAddress)
+        public async Task CreateOrderAsync(long cartId, Address shippingAddress)
         {
             var cartSpec = new CartWithItemsSpecification(cartId);
             var cart = await _cartRepository.FirstOrDefaultAsync(cartSpec);

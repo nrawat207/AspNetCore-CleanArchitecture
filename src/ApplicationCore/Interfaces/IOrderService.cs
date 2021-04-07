@@ -5,6 +5,6 @@ namespace ApplicationCore.Interfaces
 {
     public interface IOrderService
     {
-        Task CreateOrderAsync(int cartId, Address shippingAddress);
+        Task CreateOrderAsync(long cartId, Address shippingAddress);
     }
 }
